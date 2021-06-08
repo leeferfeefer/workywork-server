@@ -1,6 +1,8 @@
 const express = require('express');
 var logger = require('morgan');
 const initRoute = require('./routes/init.js');
+var admin = require("firebase-admin");
+
 
 const app = express();
 const port = 3000;
@@ -22,6 +24,9 @@ app.use(function(err, req, res, next) {
     res.status(500).send('Something broke!');
 });
 
+admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+});
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
