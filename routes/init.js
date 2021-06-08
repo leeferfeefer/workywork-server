@@ -43,9 +43,9 @@ router.post('/', function(req, res) {
   res.status(200).send('Done');
 });
 
-// router.post('/test', function(req, res) {
-//   FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
-//   res.status(200).send('Done');
-// });
+router.post('/test', function(req, res) {
+  FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
+  res.status(200).send('Done');
+});
 
 module.exports = router;
