@@ -5,7 +5,6 @@ var admin = require("firebase-admin");
 
 
 const app = express();
-const port = 3000;
 
 // dev = :method :url :status :response-time ms - :res[content-length]
 
@@ -30,4 +29,5 @@ admin.initializeApp({
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
