@@ -1,7 +1,6 @@
 const express = require('express');
 var logger = require('morgan');
-const thingyRoute = require('./routes/thingy.js');
-const logRoute = require('./routes/log.js');
+const initRoute = require('./routes/init.js');
 
 const app = express();
 const port = 3000;
@@ -13,8 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 
-app.use('/thingy', thingyRoute);
-app.use('/log', logRoute);
+app.use('/init', initRoute);
 
 // built-in error handling
 // NOTE: must be the last piece of middleware in stack

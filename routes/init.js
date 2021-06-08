@@ -1,14 +1,14 @@
-
-
 var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res) {
-  res.send('Thingy home page');
+
+  // send request to Firebase messaging
+
+
+  // send response
+  res.status(200).send('Done');
 });
 
-router.get('/about', function(req, res) {
-  res.send('About this thingy');
-});
 
 module.exports = router;
