@@ -1,14 +1,46 @@
 var express = require('express');
 var router = express.Router();
-
-router.get('/', function(req, res) {
-
-  // send request to Firebase messaging
+var FirebaseService = require('../service/firebase.service');
 
 
-  // send response
+const ONE_SECOND = 1 * 1000;
+const ONE_MINUTE = 60 * ONE_SECOND;
+const ONE_HOUR = 60 * ONE_MINUTE;
+
+let intervalTimer;
+let counter = 0;
+
+
+const startWork = () => {
+  console.log("starting work... : " + new Date());
+  FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
+};
+
+const startBreak = () => {
+  console.log("starting break... : " + new Date());
+  FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
+};
+
+router.post('/', function(req, res) {
+  counter = 0;
+
+  intervalTimer = setInterval(() => {
+
+    counter++;
+
+    setTimeout(() => {
+      startBreak();
+      setTimeout(() => {
+        startWork();
+      }, 15 * ONE_);
+    }, 45 * ONE_MINUTE);
+
+    if (counter > 8) {
+      clearInterval(intervalTimer);
+    }
+  }, ONE_HOUR);
+
   res.status(200).send('Done');
 });
-
 
 module.exports = router;
