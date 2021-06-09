@@ -32,7 +32,7 @@ router.post('/', function(req, res) {
       startBreak();
       setTimeout(() => {
         startWork();
-      }, 15 * ONE_);
+      }, 15 * ONE_MINUTE);
     }, 45 * ONE_MINUTE);
 
     if (counter > 8) {
