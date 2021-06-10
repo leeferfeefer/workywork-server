@@ -34,21 +34,10 @@ router.post('/', function(req, res) {
   counter = 0;
 
   startTimeouts();
-  
+
   intervalTimer = setInterval(() => {
     counter++;
-<<<<<<< HEAD
     startTimeouts();
-=======
-
-    setTimeout(() => {
-      startBreak();
-      setTimeout(() => {
-        startWork();
-      }, 15 * ONE_MINUTE);
-    }, 45 * ONE_MINUTE);
-
->>>>>>> 29a1f5e86552f2566684a120e68ae11b3c24b59a
     if (counter > 8) {
       clearInterval(intervalTimer);
     }
