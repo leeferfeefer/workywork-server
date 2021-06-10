@@ -21,20 +21,23 @@ const startBreak = () => {
   FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
 };
 
+const startTimeouts = () => {
+  setTimeout(() => {
+    startBreak();
+    setTimeout(() => {
+      startWork();
+    }, 15 * ONE_MINUTE);
+  }, 45 * ONE_MINUTE);
+};
+
 router.post('/', function(req, res) {
   counter = 0;
 
+  startTimeouts();
+  
   intervalTimer = setInterval(() => {
-
     counter++;
-
-    setTimeout(() => {
-      startBreak();
-      setTimeout(() => {
-        startWork();
-      }, 15 * ONE_);
-    }, 45 * ONE_MINUTE);
-
+    startTimeouts();
     if (counter > 8) {
       clearInterval(intervalTimer);
     }
