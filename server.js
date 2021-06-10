@@ -8,7 +8,8 @@ const app = express();
 
 // dev = :method :url :status :response-time ms - :res[content-length]
 
-app.use(logger('dev'));
+const logStyle = ':method :url :status :response-time ms - :res[content-length] :date';
+app.use(logger(logStyle));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
