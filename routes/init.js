@@ -10,45 +10,44 @@ const ONE_HOUR = 60 * ONE_MINUTE;
 let intervalTimer;
 let counter = 0;
 
-
-const startWork = () => {
-  console.log("starting work... : " + new Date());
-  FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
-};
-
-const startBreak = () => {
-  console.log("starting break... : " + new Date());
-  FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
-};
-
 const startTimeouts = () => {
   setTimeout(() => {
-    startBreak();
+    FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
     setTimeout(() => {
-      startWork();
+      FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
     }, 15 * ONE_MINUTE);
   }, 45 * ONE_MINUTE);
 };
 
 router.post('/', function(req, res) {
-  counter = 0;
+  try {
+    counter = 0;
 
-  startTimeouts();
-
-  intervalTimer = setInterval(() => {
-    counter++;
     startTimeouts();
-    if (counter > 8) {
-      clearInterval(intervalTimer);
-    }
-  }, ONE_HOUR);
-
-  res.status(200).send('Done');
+  
+    intervalTimer = setInterval(() => {
+      counter++;
+      startTimeouts();
+      if (counter > 8) {
+        clearInterval(intervalTimer);
+      }
+    }, ONE_HOUR);
+  
+    res.status(200).send('Done');
+  } catch (error) {
+    console.log("Error in initialization: ", error);
+    res.status(500).end();
+  }
 });
 
-router.post('/test', function(req, res) {
-  FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
-  res.status(200).send('Done');
+router.post('/test', async function(req, res) {
+  try {
+    await FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
+    res.status(200).send('Done');
+  } catch (error) {
+    console.log("Error sending message: ", error);
+    res.status(500).end();
+  }
 });
 
 module.exports = router;

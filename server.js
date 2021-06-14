@@ -1,6 +1,7 @@
 const express = require('express');
 var logger = require('morgan');
 const initRoute = require('./routes/init.js');
+const tokenRoute = require('./routes/token.js');
 var admin = require("firebase-admin");
 
 
@@ -15,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 
 app.use('/init', initRoute);
+app.use('/token', tokenRoute);
+
 
 // built-in error handling
 // NOTE: must be the last piece of middleware in stack
