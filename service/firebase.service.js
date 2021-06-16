@@ -22,7 +22,6 @@ const sendMessage = async (title, body) => {
     try {
         const message = createMessage(title, body);
         const users = await getUsers();
-        console.log('users', users);
         const response = await admin.messaging().sendToDevice(users[0].token, message);
         console.log('Successfully sent message:', response);
     } catch (error) {

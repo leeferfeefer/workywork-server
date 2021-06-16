@@ -12,11 +12,11 @@ let counter = 0;
 
 const startTimeouts = () => {
   setTimeout(() => {
-    FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
+    FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
     setTimeout(() => {
-      FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
-    }, 15 * ONE_MINUTE);
-  }, 45 * ONE_MINUTE);
+      FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
+    }, 10 * ONE_MINUTE);
+  }, 50 * ONE_MINUTE);
 };
 
 router.post('/', function(req, res) {
