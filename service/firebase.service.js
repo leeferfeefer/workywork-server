@@ -14,6 +14,9 @@ const createMessage = (title, body) => ({
     notification: {
         title,
         body
+    },
+    android: {
+        priority: 'high' 
     }
 });
 
@@ -22,7 +25,7 @@ const sendMessage = async (title, body) => {
         const message = createMessage(title, body);
         const users = await getUsers();
         let promises = [];
-        users.forEach(user => promises.push(admin.messaging().sendToDevice(user.token, message)));
+        users.forEach(user => promises.push(admin.messaging().send({...message, token: user.token})));
         const responses = await Promise.all(promises);
         console.log('Successfully sent message:', responses);
     } catch (error) {
