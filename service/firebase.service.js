@@ -14,16 +14,17 @@ const createMessage = (title, body) => ({
     notification: {
         title,
         body
-    }, 
-    data: {}
+    }
 });
 
 const sendMessage = async (title, body) => {
     try {
         const message = createMessage(title, body);
         const users = await getUsers();
-        const response = await admin.messaging().sendToDevice(users[0].token, message);
-        console.log('Successfully sent message:', response);
+        let promises = [];
+        users.forEach(user => promises.push(admin.messaging().sendToDevice(user.token, message)));
+        const responses = await Promise.all(promises);
+        console.log('Successfully sent message:', responses);
     } catch (error) {
         console.log('Error sending message:', error);
         throw error;
