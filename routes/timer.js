@@ -7,6 +7,9 @@ const ONE_SECOND = 1 * 1000;
 const ONE_MINUTE = 60 * ONE_SECOND;
 const ONE_HOUR = 60 * ONE_MINUTE;
 
+const TIMER_ALREADY_STARTED = "TIMER_ALREADY_STARTED";
+const TIMER_ALREADY_STOPPED = "TIMER_ALREADY_STOPPED";
+
 let intervalTimer;
 let counter = 0;
 
@@ -19,8 +22,12 @@ const startTimeouts = () => {
   }, 50 * ONE_MINUTE);
 };
 
-router.post('/', function(req, res) {
+router.post('/start', function(req, res) {
   try {
+    if (intervalTimer) {
+      res.status(500).send(TIMER_ALREADY_STARTED);
+      return;
+    }
     counter = 0;
 
     startTimeouts();
@@ -30,12 +37,29 @@ router.post('/', function(req, res) {
       startTimeouts();
       if (counter > 8) {
         clearInterval(intervalTimer);
+        intervalTimer = undefined;
       }
     }, ONE_HOUR);
   
     res.status(200).send('Done');
   } catch (error) {
-    console.log("Error in initialization: ", error);
+    console.log("Error in timer start: ", error);
+    res.status(500).end();
+  }
+});
+
+router.post('/stop', function(req, res) {
+  try {
+    if (!intervalTimer) {
+      res.status(500).send(TIMER_ALREADY_STOPPED);
+      return;
+    }
+    clearInterval(intervalTimer);
+    intervalTimer = undefined;
+    
+    res.status(200).send('Done');
+  } catch (error) {
+    console.log("Error in timer stop: ", error);
     res.status(500).end();
   }
 });
