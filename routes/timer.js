@@ -28,6 +28,9 @@ router.post('/start', function(req, res) {
       res.status(500).send(TIMER_ALREADY_STARTED);
       return;
     }
+    const uuid = req.body.uuid;
+    FirebaseService.updateTimerState(uuid, true);
+
     counter = 0;
 
     startTimeouts();
@@ -54,6 +57,9 @@ router.post('/stop', function(req, res) {
       res.status(500).send(TIMER_ALREADY_STOPPED);
       return;
     }
+    const uuid = req.body.uuid;
+    FirebaseService.updateTimerState(uuid, false);
+
     clearInterval(intervalTimer);
     intervalTimer = undefined;
     
