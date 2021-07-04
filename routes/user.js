@@ -3,12 +3,12 @@ var router = express.Router();
 var FirebaseService = require('../service/firebase.service');
 
 router.get('/', async (req, res) => {
-    const uuid = req.body.uuid;
+    const uuid = req.query.uuid;
     try {
         const user = await FirebaseService.getUser(uuid);
         res.json(user);
     } catch (error) {
-        console.log('Could not user from firestore: ', error);
+        console.log('Could not get user from firestore: ', error);
         res.status(500).end();
     }   
 });

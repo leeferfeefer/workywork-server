@@ -52,7 +52,7 @@ const _getUserRef = async (uuid) => {
 const getUser = async (uuid) => {
     const userRef = await _getUserRef(uuid);
     if (userRef.exists) {
-        return doc.data();
+        return userRef.data();
     } else {
         throw new Error('User does not exist!');
     }
