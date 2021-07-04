@@ -2,8 +2,7 @@ const express = require('express');
 var logger = require('morgan');
 const timerRoute = require('./routes/timer.js');
 const tokenRoute = require('./routes/token.js');
-var admin = require("firebase-admin");
-
+const userRoute = require('./routes/user.js');
 
 const app = express();
 
@@ -17,6 +16,7 @@ app.use(express.text());
 
 app.use('/timer', timerRoute);
 app.use('/token', tokenRoute);
+app.use('/user', userRoute);
 
 
 // built-in error handling
@@ -25,10 +25,6 @@ app.use('/token', tokenRoute);
 app.use(function(err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Something broke!');
-});
-
-admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
 });
 
 app.get('/', (req, res) => res.send('Hello World!'));

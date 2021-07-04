@@ -1,5 +1,9 @@
 var admin = require("firebase-admin");
 
+admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+});
+
 const START_BREAK = 'START_BREAK';
 const START_WORK = 'START_WORK';
 const COLLECTION = 'users';
@@ -20,6 +24,8 @@ const createMessage = (title, body) => ({
     }
 });
 
+const db = admin.firestore().collection(COLLECTION);
+
 const sendMessage = async (title, body) => {
     try {
         const message = createMessage(title, body);
@@ -35,12 +41,39 @@ const sendMessage = async (title, body) => {
 };
 
 const getUsers = async () => {
-    const snapshot = await admin.firestore().collection(COLLECTION).get();
-    return snapshot.docs.map(doc => doc.data());
+    const usersRef = await db.get();
+    return usersRef.docs.map(doc => doc.data());
 };
 
-const saveToken = async (token, uuid) => {
-    await admin.firestore().collection(COLLECTION).doc(uuid).set({token});
+const _getUserRef = async (uuid) => {
+    return await db.doc(uuid).get();    
+};
+
+const getUser = async (uuid) => {
+    const userRef = await _getUserRef(uuid);
+    if (userRef.exists) {
+        return doc.data();
+    } else {
+        throw new Error('User does not exist!');
+    }
+};
+
+const saveToken = async (uuid, token) => {
+    const userRef = await _getUserRef(uuid);
+    if (userRef.exists) {
+        await db.doc(uuid).update({token});
+    } else {
+        await db.doc(uuid).set({token});
+    }
+};
+
+const updateTimerState = async (uuid, timerState) => {
+    const userRef = await _getUserRef(uuid);
+    if (userRef.exists) {
+        await db.doc(uuid).update({timerState});
+    } else {
+        await db.doc(uuid).set({timerState});
+    }
 };
 
 module.exports = {
@@ -48,5 +81,7 @@ module.exports = {
     START_BREAK,
     START_WORK,
     getUsers,
-    saveToken
+    getUser,
+    saveToken,
+    updateTimerState
 }

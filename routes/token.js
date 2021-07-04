@@ -3,10 +3,10 @@ var router = express.Router();
 var FirebaseService = require('../service/firebase.service');
 
 router.post('/', async function(req, res) {
-    const token = req.body.token;
     const uuid = req.body.uuid;
+    const token = req.body.token;
     try {
-        await FirebaseService.saveToken(token, uuid);
+        await FirebaseService.saveToken(uuid, token);
         res.status(200).send('Done');
     } catch (error) {
         console.log("Could not save token to firestore: ", error);
