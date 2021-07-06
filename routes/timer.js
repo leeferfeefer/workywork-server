@@ -11,15 +11,17 @@ const TIMER_ALREADY_STARTED = "TIMER_ALREADY_STARTED";
 const TIMER_ALREADY_STOPPED = "TIMER_ALREADY_STOPPED";
 
 let intervalTimer;
+let breakTimer;
+let workTimer;
 let counter = 0;
 
 const startTimeouts = () => {
-  setTimeout(() => {
+  breakTimer = setTimeout(() => {
     FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
-    setTimeout(() => {
+    workTimer = setTimeout(() => {
       FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
-    }, 10 * ONE_MINUTE);
-  }, 50 * ONE_MINUTE);
+    }, 10 * ONE_SECOND);
+  }, 50 * ONE_SECOND);
 };
 
 router.post('/start', function(req, res) {
@@ -69,7 +71,11 @@ router.post('/stop', function(req, res) {
     FirebaseService.updateTimerState(uuid, false);
 
     clearInterval(intervalTimer);
+    clearTimeout(breakTimer);
+    clearTimeout(workTimer);
     intervalTimer = undefined;
+    breakTimer = undefined;
+    workTimer = undefined;
     
     res.status(200).send('Done');
   } catch (error) {
