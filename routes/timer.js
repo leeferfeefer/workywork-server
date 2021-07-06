@@ -29,6 +29,10 @@ router.post('/start', function(req, res) {
       return;
     }
     const uuid = req.body.uuid;
+    if (uuid === undefined) {
+      res.status(422).end();
+      return;
+    }
     FirebaseService.updateTimerState(uuid, true);
 
     counter = 0;
@@ -58,6 +62,10 @@ router.post('/stop', function(req, res) {
       return;
     }
     const uuid = req.body.uuid;
+    if (uuid === undefined) {
+      res.status(422).end();
+      return;
+    }
     FirebaseService.updateTimerState(uuid, false);
 
     clearInterval(intervalTimer);
