@@ -15,9 +15,9 @@ let counter = 0;
 
 const startTimeouts = () => {
   setTimeout(() => {
-    FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
+    FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
     setTimeout(() => {
-      FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
+      FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
     }, 10 * ONE_MINUTE);
   }, 50 * ONE_MINUTE);
 };
