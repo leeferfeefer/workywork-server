@@ -20,8 +20,8 @@ const startTimeouts = () => {
     FirebaseService.sendMessage(FirebaseService.START_BREAK, 'Start breaking!!!!!!!!');
     workTimer = setTimeout(() => {
       FirebaseService.sendMessage(FirebaseService.START_WORK, 'Start working!!!!!!!!!');
-    }, 10 * ONE_SECOND);
-  }, 50 * ONE_SECOND);
+    }, 10 * ONE_MINUTE);
+  }, 50 * ONE_MINUTE);
 };
 
 router.post('/start', function(req, res) {
